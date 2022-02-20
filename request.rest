@@ -3,7 +3,6 @@ GET http://localhost:1982/users
 ###
 POST http://localhost:1982/register
 Content-Type: "application/json"
-Accept: "application/json"
 
 {
     "email": "erna@freshcms.com",
@@ -11,4 +10,13 @@ Accept: "application/json"
     "password_confirmation": "123456789",
     "full_name": "Erna Widhiastuti",
     "nick_name": "Erna"
+}
+
+###
+POST http://localhost:1982/login
+Content-Type: "application/json"
+
+{
+    "email": "satrya@freshcms.net",
+    "password": "123456789"
 }
