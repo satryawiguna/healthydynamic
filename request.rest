@@ -1,1 +1,14 @@
 GET http://localhost:1982/users
+
+###
+POST http://localhost:1982/register
+Content-Type: "application/json"
+Accept: "application/json"
+
+{
+    "email": "erna@freshcms.com",
+    "password": "123456789",
+    "password_confirmation": "123456789",
+    "full_name": "Erna Widhiastuti",
+    "nick_name": "Erna"
+}

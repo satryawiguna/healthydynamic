@@ -11,17 +11,21 @@ const Profile = db.define('profiles', {
     },
     nick_name: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false
     },
     gender: {
         type: DataTypes.ENUM,
-        values: ['male', 'female']
+        values: ['male', 'female'],
+        allowNull: true
+            // defaultValue: 'male'
     },
     address: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        allowNull: true
     },
     phone: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: true
     }
 
 }, {
