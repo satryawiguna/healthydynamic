@@ -1,8 +1,11 @@
 import express from "express";
 import db from "./config/database.js";
 import router from "./routes/index.js";
+import dotenv from "dotenv";
 import User from "./models/UserModel.js";
 import Profile from "./models/ProfileModel.js";
+
+dotenv.config();
 
 const app = express();
 

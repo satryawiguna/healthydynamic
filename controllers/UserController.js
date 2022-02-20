@@ -2,6 +2,8 @@ import User from "../models/UserModel.js";
 import Profile from "../models/ProfileModel.js";
 import bcrypt from "bcrypt";
 import * as EmailValidator from 'email-validator';
+import jwt from "jsonwebtoken";
+import { DefaultDeserializer } from "v8";
 
 export const getUsers = async(req, res) => {
     try {
@@ -43,4 +45,52 @@ export const register = async(req, res) => {
         console.error(error);
     }
 
+};
+
+export const login = async(req, res) => {
+    try {
+        const user = await User.findAll({
+            where: {
+                email: req.body.email
+            },
+            include: [Profile]
+        })
+
+        const match = await bcrypt.compare(req.body.password, user[0].password);
+
+        if (!match) return res.status(400).json({ message: "Password invalid" });
+
+        const id = user[0].id;
+        const email = user[0].email;
+        const full_name = user[0].profile.full_name;
+        const nick_name = user[0].profile.nick_name;
+
+        const accessToken = jwt.sign({ id, email, full_name, nick_name }, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: '1h'
+        });
+        const refreshToken = jwt.sign({ id, email, full_name, nick_name }, process.env.REFRESH_TOKEN_SECRET, {
+            expiresIn: '1d'
+        });
+
+        await User.update({
+            refresh_token: refreshToken,
+        }, {
+            where: {
+                id: id
+            }
+        });
+
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000
+        });
+
+        res.json({ accessToken });
+
+    } catch (error) {
+        console.log(error);
+        res.status(404).json({
+            message: "Email not found"
+        });
+    }
 };
