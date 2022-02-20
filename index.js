@@ -1,5 +1,6 @@
 import express from "express";
 import db from "./config/database.js";
+import router from "./routes/index.js";
 import User from "./models/UserModel.js";
 import Profile from "./models/ProfileModel.js";
 
@@ -14,5 +15,9 @@ try {
 } catch (error) {
     console.error(error);
 }
+
+app.use(express.json());
+
+app.use(router);
 
 app.listen(1982, () => console.log("Server is running at port 1982..."));
