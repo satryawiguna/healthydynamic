@@ -1,5 +1,5 @@
 @hostname = http://localhost:1982
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJzYXRyeWFAZnJlc2hjbXMubmV0IiwiZnVsbF9uYW1lIjoiU2F0cnlhIFdpZ3VuYSIsIm5pY2tfbmFtZSI6IlNhdHJ5YSIsImlhdCI6MTY0NTQ1MzE3OCwiZXhwIjoxNjQ1NDU2Nzc4fQ.7U3Z1XtB0kxUc_3z9qC3bwQ5dtwFqmDOyjahYcYkrY4
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJlcm5hQGZyZXNoY21zLm5ldCIsImZ1bGxfbmFtZSI6IkVybmEgV2lkaGlhc3R1dGkiLCJuaWNrX25hbWUiOiJFcm5hIiwiaWF0IjoxNjQ1NDU0MjMyLCJleHAiOjE2NDU0NTc4MzJ9.s2OZtj4FYjLbQ7F0GmSWxyvRaVttjuQ-WgU1ERqUoSI
 
 POST {{hostname}}/register HTTP/1.1
 content-type: application/json
@@ -18,13 +18,19 @@ POST {{hostname}}/login HTTP/1.1
 content-type: application/json
 
 {
-    "email": "satrya@freshcms.net",
+    "email": "erna@freshcms.net",
     "password": "123456789"
 }
 
 ###
 
 GET {{hostname}}/auth HTTP/1.1
+content-type: application/json
+authorization: {{token}}
+
+###
+
+GET {{hostname}}/me HTTP/1.1
 content-type: application/json
 authorization: {{token}}
 
