@@ -3,17 +3,6 @@ import Profile from "../models/ProfileModel.js";
 import bcrypt from "bcrypt";
 import * as EmailValidator from 'email-validator';
 import jwt from "jsonwebtoken";
-import { DefaultDeserializer } from "v8";
-
-export const getUsers = async(req, res) => {
-    try {
-        const users = await User.findAll();
-
-        res.json(users);
-    } catch (error) {
-        console.error(error);
-    }
-};
 
 export const register = async(req, res) => {
     const { email, password, password_confirmation, full_name, nick_name } = req.body;
@@ -94,3 +83,39 @@ export const login = async(req, res) => {
         });
     }
 };
+
+export const getUsers = async(req, res) => {
+    try {
+        const users = await User.findAll({
+            attributes: {
+                exclude: ['password', 'refresh_token']
+            },
+            include: [Profile]
+        })
+
+        res.json(users);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const getUser = async(req, res) => {
+    try {
+        const id = req.params.id;
+
+        const user = await User.findByPk(id, {
+            attributes: {
+                exclude: ['password', 'refresh_token']
+            },
+            include: [Profile]
+        });
+
+        if (user === null) {
+            console.error('User not found');
+        } else {
+            res.json(user);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
