@@ -84,6 +84,14 @@ export const login = async(req, res) => {
     }
 };
 
+export const isAuth = async(req, res) => {
+    try {
+        return res.sendStatus(200);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export const getUsers = async(req, res) => {
     try {
         const users = await User.findAll({
