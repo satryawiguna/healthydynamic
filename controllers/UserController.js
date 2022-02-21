@@ -92,6 +92,24 @@ export const isAuth = async(req, res) => {
     }
 }
 
+export const me = async(req, res) => {
+    try {
+        const user = await User.findAll({
+            where: {
+                email: req.email
+            },
+            attributes: {
+                exclude: ['password', 'refresh_token']
+            },
+            include: [Profile]
+        });
+
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export const getUsers = async(req, res) => {
     try {
         const users = await User.findAll({
