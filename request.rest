@@ -1,22 +1,32 @@
-GET http://localhost:1982/users
-
-###
-POST http://localhost:1982/register
-Content-Type: "application/json"
+POST http://localhost:1982/register HTTP/1.1
+content-type: application/json
 
 {
-    "email": "erna@freshcms.com",
+    "email": "arshakaela@freshcms.com",
     "password": "123456789",
     "password_confirmation": "123456789",
-    "full_name": "Erna Widhiastuti",
-    "nick_name": "Erna"
+    "full_name": "Arsha Kaela",
+    "nick_name": "Kaela"
 }
 
 ###
-POST http://localhost:1982/login
-Content-Type: "application/json"
+
+POST http://localhost:1982/login HTTP/1.1
+content-type: application/json
 
 {
     "email": "satrya@freshcms.net",
     "password": "123456789"
 }
+
+###
+
+GET http://localhost:1982/users HTTP/1.1
+content-type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJzYXRyeWFAZnJlc2hjbXMubmV0IiwiZnVsbF9uYW1lIjoiU2F0cnlhIFdpZ3VuYSIsIm5pY2tfbmFtZSI6IlNhdHJ5YSIsImlhdCI6MTY0NTQ0NjY4MCwiZXhwIjoxNjQ1NDUwMjgwfQ.zIAvleKOwrprrDXLqZZiTHHJ5aPaSH66i86zkyoQVQ0
+
+###
+
+GET http://localhost:1982/user/1 HTTP/1.1
+content-type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJzYXRyeWFAZnJlc2hjbXMubmV0IiwiZnVsbF9uYW1lIjoiU2F0cnlhIFdpZ3VuYSIsIm5pY2tfbmFtZSI6IlNhdHJ5YSIsImlhdCI6MTY0NTQ0NjY4MCwiZXhwIjoxNjQ1NDUwMjgwfQ.zIAvleKOwrprrDXLqZZiTHHJ5aPaSH66i86zkyoQVQ0
