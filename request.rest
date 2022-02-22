@@ -1,5 +1,5 @@
 @hostname = http://localhost:1982
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJlcm5hQGZyZXNoY21zLm5ldCIsImZ1bGxfbmFtZSI6IkVybmEgV2lkaGlhc3R1dGkiLCJuaWNrX25hbWUiOiJFcm5hIiwiaWF0IjoxNjQ1NDU0MjMyLCJleHAiOjE2NDU0NTc4MzJ9.s2OZtj4FYjLbQ7F0GmSWxyvRaVttjuQ-WgU1ERqUoSI
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJlcm5hQGZyZXNoY21zLm5ldCIsImZ1bGxfbmFtZSI6IkVybmEgV2lkaGlhc3R1dGkiLCJuaWNrX25hbWUiOiJFcm5hIiwiaWF0IjoxNjQ1NDg4MTk4LCJleHAiOjE2NDU0OTE3OTh9.H1ceuOvpry2VtE4g1hx4pxt8N5NpZ68H-OZLqtElY9s
 
 POST {{hostname}}/register HTTP/1.1
 content-type: application/json
@@ -30,12 +30,6 @@ authorization: {{token}}
 
 ###
 
-GET {{hostname}}/me HTTP/1.1
-content-type: application/json
-authorization: {{token}}
-
-###
-
 GET {{hostname}}/users HTTP/1.1
 content-type: application/json
 authorization: {{token}}
@@ -45,3 +39,54 @@ authorization: {{token}}
 GET {{hostname}}/user/1 HTTP/1.1
 content-type: application/json
 authorization: {{token}}
+
+###
+
+POST {{hostname}}/user HTTP/1.1
+content-type: application/json
+authorization: {{token}}
+
+{
+    "email": "rianadewi@freshcms.com",
+    "password": "123456789",
+    "password_confirmation": "123456789",
+    "full_name": "Riana Dewi",
+    "nick_name": "Riana",
+    "gender": "female",
+    "address": "No address",
+    "phone": "888-888-888"
+}
+
+###
+
+PUT {{hostname}}/user/4 HTTP/1.1
+content-type: application/json
+authorization: {{token}}
+
+{
+    "full_name": "Riana Laskmi Dewi",
+    "nick_name": "Riana",
+    "gender": "female",
+    "address": "Br. Pasedana, Gg Mawar No 2, Gianayr - Bali",
+    "phone": "888-777-666"
+}
+
+###
+
+GET {{hostname}}/profile/me HTTP/1.1
+content-type: application/json
+authorization: {{token}}
+
+###
+
+PUT {{hostname}}/profile/me HTTP/1.1
+content-type: application/json
+authorization: {{token}}
+
+{
+    "full_name": "Erna Widhiastuti",
+    "nick_name": "Erna",
+    "gender": "female",
+    "address": "No address",
+    "phone": "999-999-999"
+}
