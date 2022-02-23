@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: healthydynamic_api
+    volumes:
+      - ./:/app
+      - node_modules:/app/node_modules
+    ports:
+      - "8669:8669"
+    stdin_open: true
+    tty: true
+    env_file:
+      - .env
+    environment:
+      - PORT=8669
+
+      - DB_HOSTNAME=healthydynamic_mysql
+      - DB_USERNAME=root
+      - DB_PASSWORD=secret
+      - DB_DATABASE=healthydynamic
+      
+      - ACCESS_TOKEN_SECRET=jTWwj0dM4JRZefYPE9KPjYYYoS9xVBIAvKOCmrvyWbsD7YEWBV
+      - REFRESH_TOKEN_SECRET=sIqksGTfTqGjOy4gN2UlrgecjhJ3x69FuP1pZIYuqVml8fWwRS
+    depends_on:
+      - database
+    networks:
+      - healthydynamic_network
+
+  database:
+    image: mysql:5.7.22
+    container_name: healthydynamic_mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql/
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    environment:
+      # get .env ref use ${DB_DATABASE}
+      - MYSQL_DATABASE=healthydynamic
+      # get .env ref use ${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=secret
+      # get .env ref use ${DB_PASSWORD}
+      - MYSQL_PASSWORD=secret
+      # get .env ref use ${DB_USERNAME}
+      - MYSQL_USER=root
+      - SERVICE_TAGS=dev
+      - SERVICE_NAME=mysql
+    networks:
+      - healthydynamic_network
+
+networks:
+  healthydynamic_network:
+    name: healthydynamic_network
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
+  node_modules:
