@@ -23,4 +23,4 @@ app.use(express.json());
 
 app.use(router);
 
-app.listen(1982, () => console.log("Server is running at port 1982..."));
+app.listen(process.env.PORT || 8669, () => console.log("Server is running at port " + process.env.PORT + "..."));

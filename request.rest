@@ -1,4 +1,4 @@
-@hostname = http://localhost:1982
+@hostname = http://localhost:8669
 @token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJlcm5hQGZyZXNoY21zLm5ldCIsImZ1bGxfbmFtZSI6IkVybmEgV2lkaGlhc3R1dGkiLCJuaWNrX25hbWUiOiJFcm5hIiwiaWF0IjoxNjQ1NDg4MTk4LCJleHAiOjE2NDU0OTE3OTh9.H1ceuOvpry2VtE4g1hx4pxt8N5NpZ68H-OZLqtElY9s
 
 POST {{hostname}}/register HTTP/1.1
