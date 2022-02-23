@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 html,
 body {
   padding: 0;
@@ -13,4 +16,34 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+@-webkit-keyframes svg-text-anim {
+  40% {
+    stroke-dashoffset: 0;
+    fill: transparent;
+  }
+  60% {
+    stroke-dashoffset: 0;
+    fill: #55be5c;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    fill: #55be5c;
+  }
+}
+
+@keyframes svg-text-anim {
+  40% {
+    stroke-dashoffset: 0;
+    fill: transparent;
+  }
+  60% {
+    stroke-dashoffset: 0;
+    fill: #55be5c;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    fill: #55be5c;
+  }
 }
