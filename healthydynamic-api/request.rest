@@ -18,9 +18,19 @@ POST {{hostname}}/login HTTP/1.1
 content-type: application/json
 
 {
-    "email": "erna@freshcms.net",
+    "email": "satrya@freshcms.net",
     "password": "123456789"
 }
+
+###
+
+DELETE {{hostname}}/logout HTTP/1.1
+content-type: application/json
+
+###
+
+GET {{hostname}}/refresh-token HTTP/1.1
+content-type: application/json
 
 ###
 
