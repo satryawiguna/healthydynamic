@@ -1,10 +1,18 @@
 import useSWR from "swr";
 import axios from "../lib/axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import jwtDecode from "jwt-decode";
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const router = useRouter();
+
+  const [accessToken, setAccessToken] = useState("");
+  const [expired, setExpired] = useState("");
+
+  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
+
   const fetcher = async (url) => {
     return await axios
       .get(url)
@@ -16,7 +24,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
       });
   };
 
-  const { data: user, error, mutate } = useSWR("/auth/me", fetcher);
+  const { data: user, error, mutate } = useSWR("/profile/me", fetcher);
 
   const register = async ({ setErrors, ...props }) => {
     setErrors([]);
@@ -27,9 +35,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         mutate();
       })
       .catch((error) => {
-        if (error.response.status != 422) throw error;
+        if (!error) throw error;
 
-        setErrors(Object.values(error.response.data.errors).flat());
+        setErrors(Object.values(error.response.data.message).flat());
       });
   };
 
@@ -38,15 +46,22 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     setErrors([]);
 
     axios
-      .post("/auth/login", props)
+      .post("/login", props)
       .then((response) => {
-        localStorage.setItem("token", response.data.meta.token);
+        const decoded = jwtDecode(response.data.accessToken);
+
+        setAccessToken(response.data.accessToken);
+        setExpired(decoded.exp);
+
+        setEmail(decoded.email);
+        setFullName(decoded.full_name);
+
         mutate();
       })
       .catch((error) => {
-        if (error.response.status != 422) throw error;
+        if (!error) throw error;
 
-        setErrors(Object.values(error.response.data.errors).flat());
+        setErrors(Object.values(error.response.data.message).flat());
       });
   };
 
@@ -58,10 +73,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
       .post("/password/email", { email })
       .then((response) => setStatus(response.data.status))
       .catch((error) => {
-        if (error.response.status != 422 && error.response.status != 500)
-          throw error;
+        if (!error) throw error;
 
-        setErrors(Object.values(error.response.data.errors).flat());
+        setErrors(Object.values(error.response.data.message).flat());
       });
   };
 
@@ -75,9 +89,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         router.push("/login?reset=" + btoa(response.data.status))
       )
       .catch((error) => {
-        if (error.response.status != 422) throw error;
+        if (!error) throw error;
 
-        setErrors(Object.values(error.response.data.errors).flat());
+        setErrors(Object.values(error.response.data.message).flat());
       });
   };
 
@@ -90,15 +104,16 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const logout = async () => {
     if (!error) {
       await axios
-        .post("/auth/logout", { email: user.email })
+        .delete("/logout")
         .then(() => {
-          localStorage.removeItem("token");
+          setAccessToken("");
+
           mutate();
         })
         .catch((error) => {
-          if (error.response.status != 422) throw error;
+          if (!error) throw error;
 
-          setErrors(Object.values(error.response.data.errors).flat());
+          setErrors(Object.values(error.response.data.message).flat());
         });
     }
 
@@ -106,11 +121,48 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   };
 
   useEffect(() => {
-    console.log(user);
+    const currentDate = new Date();
+
+    if (accessToken != "") {
+      console.log("test 2");
+      if (expired * 1000 < currentDate.getTime()) {
+        const fetchData = async () => {
+          const response = await axios.get("refresh-token");
+
+          const decoded = jwtDecode(response.data.accessToken);
+
+          setAccessToken(response.data.accessToken);
+          setExpired(decoded.exp);
+          setEmail(decoded.email);
+          setFullName(decoded.fullName);
+        };
+
+        fetchData().catch((error) => {
+          console.log(error);
+        });
+      }
+    }
+
     if (middleware == "guest" && redirectIfAuthenticated && user)
       router.push(redirectIfAuthenticated);
+
     if (middleware == "auth" && error) logout();
   }, [user, error]);
+
+  useEffect(() => {
+    if (accessToken != "") {
+      axios.interceptors.request.use(
+        async (config) => {
+          config.headers.Authorization = "Bearer " + accessToken;
+
+          return config;
+        },
+        (error) => {
+          return Promise.reject(error);
+        }
+      );
+    }
+  }, [accessToken]);
 
   return {
     user,

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useAuth } from "../hooks/auth";
+import { useAuth } from "../hooks/useAuth";
 import Link from "next/link";
 import Script from "next/script";
 
