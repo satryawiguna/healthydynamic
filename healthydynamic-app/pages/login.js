@@ -53,14 +53,13 @@ const Login = () => {
           </Link>
         }
       >
+        tetek{status}
         <AuthSessionStatus className="mb-4" status={status} />
-
         <AuthValidationErrors
           className="mb-4"
           errors={errors}
           onClick={closeErrorHandler}
         />
-
         <form onSubmit={submitFormHandler}>
           <div>
             <Label htmlFor="email">Email</Label>

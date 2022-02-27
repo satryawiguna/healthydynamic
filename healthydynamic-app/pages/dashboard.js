@@ -1,5 +1,6 @@
 import Head from "next/head";
 import AppLayout from "../components/Layouts/AppLayout";
+import { useAuth } from "../hooks/useAuth";
 
 const Dashboard = () => {
   return (

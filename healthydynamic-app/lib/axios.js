@@ -1,5 +1,4 @@
 import Axios from "axios";
-import { setConfig } from "next/config";
 
 const axios = Axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
