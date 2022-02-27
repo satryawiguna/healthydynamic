@@ -4,11 +4,11 @@ services:
   api:
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: DockerfileApi
     container_name: healthydynamic_api
     volumes:
       - ./healthydynamic-api:/app
-      - node_modules:/app/node_modules
+      - node_modules_api:/app/node_modules
     ports:
       - "8669:8669"
     stdin_open: true
@@ -22,11 +22,28 @@ services:
       - DB_USERNAME=root
       - DB_PASSWORD=secret
       - DB_DATABASE=healthydynamic
-      
+
       - ACCESS_TOKEN_SECRET=jTWwj0dM4JRZefYPE9KPjYYYoS9xVBIAvKOCmrvyWbsD7YEWBV
       - REFRESH_TOKEN_SECRET=sIqksGTfTqGjOy4gN2UlrgecjhJ3x69FuP1pZIYuqVml8fWwRS
     depends_on:
       - database
+    networks:
+      - healthydynamic_network
+
+  app:
+    build:
+      context: ./
+      dockerfile: DockerfileApp
+    container_name: healthydynamic_app
+    volumes:
+      - ./healthydynamic-app:/app
+      - node_modules_app:/app/node_modules
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - api
     networks:
       - healthydynamic_network
 
@@ -62,4 +79,5 @@ networks:
 volumes:
   dbdata:
     driver: local
-  node_modules:
+  node_modules_app:
+  node_modules_api:
