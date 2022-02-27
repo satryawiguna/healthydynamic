@@ -30,7 +30,7 @@ export const refreshToken = async (req, res) => {
 
         const accessToken = jwt.sign(
           { id, email, full_name, nick_name },
-          process.env.REFRESH_TOKEN_SECRET,
+          process.env.ACCESS_TOKEN_SECRET,
           {
             expiresIn: "1d",
           }

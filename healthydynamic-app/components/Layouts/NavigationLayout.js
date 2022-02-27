@@ -6,6 +6,7 @@ import { DropdownButton } from "../DropdownLink";
 import { useAuth } from "../../hooks/useAuth";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { Profiler } from "react/cjs/react.production.min";
 
 const Navigation = ({ user }) => {
   const router = useRouter();
@@ -36,6 +37,9 @@ const Navigation = ({ user }) => {
               >
                 Dashboard
               </NavLink>
+              <NavLink href="/users" active={router.pathname == "/users"}>
+                Users
+              </NavLink>
             </div>
           </div>
 
@@ -45,7 +49,7 @@ const Navigation = ({ user }) => {
               width="48"
               trigger={
                 <button className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out">
-                  <div>{user?.name}</div>
+                  <div>{user ? user[0].full_name : ""}</div>
 
                   <div className="ml-1">
                     <svg
@@ -63,6 +67,13 @@ const Navigation = ({ user }) => {
                 </button>
               }
             >
+              <DropdownButton
+                onClick={() => {
+                  router.push("/profile");
+                }}
+              >
+                Profile
+              </DropdownButton>
               <DropdownButton onClick={logout}>Logout</DropdownButton>
             </Dropdown>
           </div>

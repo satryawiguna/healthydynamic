@@ -30,9 +30,6 @@ export const modifyMeProfile = async (req, res) => {
       where: {
         email: req.email,
       },
-      attributes: ["id"],
-      returning: true,
-      plain: true,
     });
 
     const profile = await Profile.update(

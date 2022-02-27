@@ -1,5 +1,5 @@
 @hostname = http://localhost:8669
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJlcm5hQGZyZXNoY21zLm5ldCIsImZ1bGxfbmFtZSI6IkVybmEgV2lkaGlhc3R1dGkiLCJuaWNrX25hbWUiOiJFcm5hIiwiaWF0IjoxNjQ1NDg4MTk4LCJleHAiOjE2NDU0OTE3OTh9.H1ceuOvpry2VtE4g1hx4pxt8N5NpZ68H-OZLqtElY9s
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJzYXRyeWFAZnJlc2hjbXMubmV0IiwiZnVsbF9uYW1lIjoiU2F0cnlhIFdpZ3VuYSIsIm5pY2tfbmFtZSI6IlNhdHJ5YSIsImlhdCI6MTY0NTg1NDY2OSwiZXhwIjoxNjQ1OTQxMDY5fQ.5av8ht_6OKm2xtaFVVUj9SQowrxhjFP3mFTKyv9vXd0
 
 POST {{hostname}}/register HTTP/1.1
 content-type: application/json
@@ -57,12 +57,12 @@ content-type: application/json
 authorization: {{token}}
 
 {
-    "email": "rianadewi@freshcms.com",
+    "email": "ambarawa@freshcms.net",
     "password": "123456789",
     "password_confirmation": "123456789",
-    "full_name": "Riana Dewi",
-    "nick_name": "Riana",
-    "gender": "female",
+    "full_name": "Ambarawa Kesawa",
+    "nick_name": "Ambarawa",
+    "gender": "male",
     "address": "No address",
     "phone": "888-888-888"
 }
@@ -83,6 +83,12 @@ authorization: {{token}}
 
 ###
 
+DELETE {{hostname}}/user/6 HTTP/1.1
+content-type: application/json
+authorization: {{token}}
+
+###
+
 GET {{hostname}}/profile/me HTTP/1.1
 content-type: application/json
 authorization: {{token}}
@@ -94,9 +100,9 @@ content-type: application/json
 authorization: {{token}}
 
 {
-    "full_name": "Erna Widhiastuti",
-    "nick_name": "Erna",
-    "gender": "female",
+    "full_name": "Satrya Wiguna",
+    "nick_name": "Satrya",
+    "gender": "male",
     "address": "No address",
     "phone": "999-999-999"
 }

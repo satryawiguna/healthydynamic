@@ -16,6 +16,15 @@ export const register = async (req, res) => {
   if (!EmailValidator.validate(email))
     return res.status(400).json({ message: ["Email format invalid"] });
 
+  const user = await User.findAll({
+    where: {
+      email: email,
+    },
+  });
+
+  if (user.length > 0)
+    return res.status(400).json({ message: ["Email is already taken"] });
+
   const salt = await bcrypt.genSalt();
   const hashPassword = await bcrypt.hash(password, salt);
 
@@ -191,6 +200,17 @@ export const storeUser = async (req, res) => {
       .json({ message: ["Password & confirm password doesn't match"] });
   if (!EmailValidator.validate(email))
     return res.status(400).json({ message: ["Email format invalid"] });
+
+  const user = await User.findAll({
+    where: {
+      email: email,
+    },
+  });
+
+  console.log(user.length);
+
+  if (user.length > 0)
+    return res.status(400).json({ message: ["Email is already taken"] });
 
   const salt = await bcrypt.genSalt();
   const hashPassword = await bcrypt.hash(password, salt);
